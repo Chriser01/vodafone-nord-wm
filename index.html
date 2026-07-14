@@ -246,9 +246,11 @@ function renderTopspieler() {
 function renderVorrunde() {
   const p = document.getElementById("vorrunde");
   const rounds = roundList();
+  const playedRounds = rounds.filter(r => DATA.vorrunde.rows.some(x => String(x["Spieltag"]) === String(r) && (num(x["Punkte S1"]) !== null || num(x["Punkte S2"]) !== null || x["Status S1"] !== "Normal" || x["Status S2"] !== "Normal")));
+  const latest = playedRounds.length ? playedRounds[playedRounds.length - 1] : "";
   p.innerHTML = `<div class="toolbar">
     <input id="vSearch" placeholder="Suchen...">
-    <select id="vRound"><option value="">Alle Spieltage</option>${rounds.map(r=>`<option value="${r}">Spieltag ${r}</option>`).join("")}</select>
+    <select id="vRound"><option value="">Alle Spieltage</option>${rounds.map(r=>`<option value="${r}" ${String(r)===String(latest) ? "selected" : ""}>Spieltag ${r}</option>`).join("")}</select>
     <button class="small" id="playedOnly">Nur gespielte Duelle</button>
   </div><div id="vTable"></div>`;
   let playedOnly = false;
